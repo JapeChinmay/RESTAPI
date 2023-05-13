@@ -1,18 +1,20 @@
+const TourModel = require("../Model/TourModel");
+
 const Tours = [
   {
     post: "somedata",
-    ID: "122",
+    ID: 122,
   },
 ];
 
-exports.checkID = (req, res, next, val) => {
-  if (req.param.ID * 1 > Tours.length) {
-    console.log(`${val}`);
-    return res.status(404).json({ message: "not found" });
-  }
+// exports.checkID = (req, res, next, val) => {
+//   if (req.param.ID * 1 > Tours.length) {
+//     console.log(`${val}`);
+//     return res.status(404).json({ message: "not found" });
+//   }
 
-  next();
-};
+//   next();
+// };
 
 exports.checkzBody = (req, res, next) => {
   console.log("called");
@@ -21,20 +23,26 @@ exports.checkzBody = (req, res, next) => {
   }
   next();
 };
-exports.getTours = (req, res) => {
-  const ans = {
-    tours: Tours,
-  };
+exports.getTours = async (req, res) => {
+  const tours = await TourModel.find();
 
-  return res.status(200).json(ans);
+  return res.status(200).json(tours);
 };
 
-exports.postTours = (req, res) => {
-  const newID = Tours.length + 1;
-  req.body.ID = newID;
-  Tours.push(req.body);
+exports.postTours = async (req, res) => {
+  console.log("tour post called");
+  try {
+    const newTour = await TourModel.create(req.body);
+    console.log(req.body);
 
-  return res.status(200).json({ message: "ok" });
+    return res.status(200).json(newTour);
+  } catch (err) {
+    return res.status(404).json({ message: err });
+  }
+
+  // const newID = Tours.length + 1;
+  // req.body.ID = newID;
+  // Tours.push(req.body);
 };
 
 exports.patchTour = (req, res) => {

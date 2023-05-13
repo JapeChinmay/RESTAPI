@@ -4,13 +4,13 @@ const tourCOntroller = require("../Controllers/tourCOntroller");
 
 const tourROuter = express.Router();
 
-tourROuter.param("id", tourCOntroller.checkID);
+// tourROuter.param("id", tourCOntroller.checkID);
 // param middleware
-
+console.log("called");
 tourROuter
   .route("/")
   .get(tourCOntroller.getTours)
-  .post(tourCOntroller.checkzBody, tourCOntroller.postTours);
+  .post(tourCOntroller.postTours);
 tourROuter
   .route("/:id")
   .get(tourCOntroller.getTourbyID)
