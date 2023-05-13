@@ -1,14 +1,32 @@
-const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const mongoose = require("mongoose");
+const app = require("./app");
 
-const DB = process.env.DATABSE.replace("<password>", process.env.PASSWORD);
+dotenv.config();
 
-mongoose
-  .connect(DB, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-  })
-  .then((con) => {
-    console.log(con.connection);
-  });
+const DB = process.env.DATABASE.replace("<password>", process.env.PASSWORD);
+
+exports.Connect = () => {
+  mongoose
+    .connect(DB, {
+      useNewUrlParser: true,
+      useCreateIndex: true,
+      useFindAndModify: false,
+    })
+    .then((con) => {
+      console.log("connected ");
+    });
+};
+
+const tourSchema = new mongoose.Schema({
+  post: {
+    type: String,
+    required: [true, "must have a post value"],
+  },
+  ID: {
+    type: Number,
+    required: [true, "  must have a ID"],
+  },
+});
+
+const TourModel = mongoose.model("TourModel", tourSchema);

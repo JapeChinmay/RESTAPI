@@ -4,7 +4,7 @@ const morgan = require("morgan");
 const tourROuter = require("./Routes/tourroutes");
 const userRouter = require("./Routes/userrouter");
 const dotenv = require("dotenv");
-const mongoose = require("mongoose");
+const { Connect } = require("./Server");
 
 dotenv.config();
 
@@ -13,19 +13,9 @@ app.use(express.json());
 
 app.use(morgan("dev"));
 
+Connect();
+
 /////////////////////////////////////////////////////////////////
-
-const DB = process.env.DATABASE.replace("<password>", process.env.PASSWORD);
-
-mongoose
-  .connect(DB, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-  })
-  .then((con) => {
-    console.log("connected ");
-  });
 
 ////////////////////////////////////////////////////////////////////////////
 app.use((req, res, next) => {
