@@ -1,3 +1,26 @@
+const Tours = [
+  {
+    post: "somedata",
+    ID: "122",
+  },
+];
+
+exports.checkID = (req, res, next, val) => {
+  if (req.param.ID * 1 > Tours.length) {
+    console.log(`${val}`);
+    return res.status(404).json({ message: "not found" });
+  }
+
+  next();
+};
+
+exports.checkzBody = (req, res, next) => {
+  console.log("called");
+  if (!req.body.post || !req.body.ID) {
+    return res.status(400).json({ message: "failed" });
+  }
+  next();
+};
 exports.getTours = (req, res) => {
   const ans = {
     tours: Tours,

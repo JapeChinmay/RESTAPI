@@ -3,6 +3,9 @@ const express = require("express");
 const morgan = require("morgan");
 const tourROuter = require("./Routes/tourroutes");
 const userRouter = require("./Routes/userrouter");
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 const app = express();
 app.use(express.json());
@@ -35,7 +38,8 @@ app.use("/api/v1/users", userRouter);
 //app.patch("/api/v1/tours/:id", patchTour);
 
 //app.delete("/api/v1/tours/:id", deleteTour);
+const port = process.env.PORT;
 
-app.listen(3000, () => {
+app.listen(port, () => {
   console.log("listening");
 });
